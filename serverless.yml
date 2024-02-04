@@ -81,6 +81,15 @@ functions:
 
 resources:
   Resources:
+    KmsKey:
+      Type: AWS::KMS::Key
+
+    KmsAlias:
+      Type: AWS::KMS::Alias
+      Properties:
+        AliasName: ${self:provider.stage}
+        TargetKeyId: !Ref KmsKey
+
     GithubSecret:
       Type: AWS::SecretsManager::Secret
       Properties:
