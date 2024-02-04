@@ -87,7 +87,7 @@ resources:
     KmsAlias:
       Type: AWS::KMS::Alias
       Properties:
-        AliasName: ${self:provider.stage}
+        AliasName: alias/${self:provider.stage}
         TargetKeyId: !Ref KmsKey
 
     GithubSecret:
