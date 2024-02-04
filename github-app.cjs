@@ -4,6 +4,7 @@ module.exports.GH_CLIENT_ID = process.env[`GH_CLIENT_ID`].toUpperCase();
 module.exports.GH_APP_SECRETS = JSON.stringify({
   [`GITHUB_${module.exports.GH_CLIENT_ID.replace(".", "_")}`]:
     process.env[`GH_CLIENT_SECRET`],
+  [`GITHUB_CLIENT_ID_${process.env[`GH_APP_ID`]}`]: process.env[`GH_CLIENT_ID`],
   [`GITHUB_PRIVATE_KEY_${process.env[`GH_APP_ID`]}`]: Buffer.from(
     process.env[`GH_PRIVATE_KEY`]
   ).toString(`base64`),
