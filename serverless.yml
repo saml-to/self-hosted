@@ -1,0 +1,188 @@
+service: saml-to
+
+frameworkVersion: 3.38.0
+variablesResolutionMode: "20210326"
+configValidationMode: off
+disabledDeprecations:
+  - "*"
+
+# plugins:
+#   - serverless-esbuild
+#   - serverless-react
+#   - serverless-dotenv-plugin
+#   - serverless-offline-resources
+#   - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - "dynamodb:*"
+            - "secretsmanager:*"
+            - "sns:*"
+            - "sqs:*"
+          Resource: "*"
+  stage: ${opt:stage, "local"}
+  logRetentionInDays: 1
+  tracing:
+    apiGateway: true
+    lambda: true
+  environment:
+    STAGE: ${self:provider.stage}
+
+functions:
+  github:
+    handler: src/lambda.handler
+    timeout: 29
+    layers:
+      - arn:aws:lambda:us-east-1:034541671702:layer:openssl-lambda:1
+      - arn:aws:lambda:us-east-1:580360238192:layer:nonlive-github-sls-rest-api:3
+    environment:
+      SERVICE_NAME: github-sls-rest-api
+      SERVICE_SLUG: github
+    events:
+      - httpApi:
+          method: "*"
+          path: /github/{proxy+}
+      # - sns:
+      #     arn: ${file(serverless.config.js):topic-arn}
+      # - sns:
+      #     arn: ${file(serverless.config.js):auth-topic-arn}
+      # - sns:
+      #     arn: arn:aws:sns:us-east-1:580360238192:cf-hook
+      - stream:
+          type: dynamodb
+          batchSize: 1
+          maximumRecordAgeInSeconds: 600
+          arn:
+            Fn::GetAtt: [GithubTable, StreamArn]
+      # - stream:
+      #     type: kinesis
+      #     batchSize: 1
+      #     maximumRecordAgeInSeconds: 86400
+      #     arn:
+      #       Fn::GetAtt: [Stream, Arn]
+
+resources:
+  Resources:
+    # Secret:
+    #   Type: AWS::SecretsManager::Secret
+    #   Properties:
+    #     Name: ${self:service}-${self:provider.stage}
+    #     SecretString: ${file(scripts/config.js):SECRETS}
+
+    # Topic:
+    #   Type: AWS::SNS::Topic
+    #   Properties:
+    #     TopicName: ${self:service}-${self:provider.stage}
+
+    # Queue:
+    #   Type: AWS::SQS::Queue
+    #   Properties:
+    #     QueueName: ${self:service}-${self:provider.stage}
+
+    GithubTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-github-sls-rest-api
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+          - AttributeName: sk
+            KeyType: RANGE
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+          - AttributeName: sk
+            AttributeType: S
+        GlobalSecondaryIndexes:
+          - IndexName: sk-pk-index
+            KeySchema:
+              - AttributeName: sk
+                KeyType: HASH
+              - AttributeName: pk
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+        TimeToLiveSpecification:
+          AttributeName: expires
+          Enabled: true
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
+        SSESpecification:
+          SSEEnabled: true
+        BillingMode: PAY_PER_REQUEST
+
+    IdpRequestsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-github-sls-rest-api-idp-requests
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+          - AttributeName: sk
+            KeyType: RANGE
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+          - AttributeName: sk
+            AttributeType: S
+        GlobalSecondaryIndexes:
+          - IndexName: sk-pk-index
+            KeySchema:
+              - AttributeName: sk
+                KeyType: HASH
+              - AttributeName: pk
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+        TimeToLiveSpecification:
+          AttributeName: expires
+          Enabled: true
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
+        SSESpecification:
+          SSEEnabled: true
+        BillingMode: PAY_PER_REQUEST
+
+    CachedConfigTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.stage}-github-sls-rest-api-cached-config
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+          - AttributeName: sk
+            KeyType: RANGE
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+          - AttributeName: sk
+            AttributeType: S
+        GlobalSecondaryIndexes:
+          - IndexName: sk-pk-index
+            KeySchema:
+              - AttributeName: sk
+                KeyType: HASH
+              - AttributeName: pk
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+        TimeToLiveSpecification:
+          AttributeName: expires
+          Enabled: true
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
+        SSESpecification:
+          SSEEnabled: true
+        BillingMode: PAY_PER_REQUEST

@@ -1,0 +1,16 @@
+{
+  "name": "@saml-to/self-hosted",
+  "version": "1.0.0",
+  "description": "Host SAML.to in your own AWS Account",
+  "main": "index.js",
+  "repository": "git@github.com:saml-to/self-hosted.git",
+  "author": "SAML.to",
+  "license": "BUSL-1.1",
+  "private": false,
+  "scripts": {
+    "deploy": "serverless deploy"
+  },
+  "devDependencies": {
+    "serverless": "3.38.0"
+  }
+}
