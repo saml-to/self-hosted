@@ -33,6 +33,9 @@ provider:
     lambda: true
   environment:
     STAGE: ${self:provider.stage}
+    GITHUB_APP_ID: ${file(github-app.cjs):GH_APP_ID}
+    GITHUB_CLIENT_IDS: ${file(github-app.cjs):GH_CLIENT_ID}
+    GITHUB_APP_URL: ${file(github-app.cjs):GH_APP_URL}
 
 functions:
   github:
@@ -78,11 +81,11 @@ functions:
 
 resources:
   Resources:
-    # Secret:
-    #   Type: AWS::SecretsManager::Secret
-    #   Properties:
-    #     Name: ${self:service}-${self:provider.stage}
-    #     SecretString: ${file(scripts/config.js):SECRETS}
+    GithubSecret:
+      Type: AWS::SecretsManager::Secret
+      Properties:
+        Name: lambda/${self:provider.stage}/github-sls-rest-api
+        SecretString: ${file(github-app.cjs):GH_APP_SECRETS}
 
     # Topic:
     #   Type: AWS::SNS::Topic
