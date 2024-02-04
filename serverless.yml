@@ -50,9 +50,18 @@ functions:
       SERVICE_NAME: github-sls-rest-api
       SERVICE_SLUG: github
     events:
-      - httpApi:
-          method: "*"
+      - http:
+          path: /github
+          method: any
+      - http:
+          path: /github
+          method: options
+      - http:
           path: /github/{proxy+}
+          method: any
+      - http:
+          path: /github/{proxy+}
+          method: options
       # - sns:
       #     arn: ${file(serverless.config.js):topic-arn}
       # - sns:
