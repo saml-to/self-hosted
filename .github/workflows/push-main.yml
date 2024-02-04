@@ -31,14 +31,14 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ env.AWS_DEPLOY_ROLE}}
-          aws-region: ${{ env.AWS_REGION}}
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - run: yarn deploy --stage $NODE_ENV
         env:
-          GH_APP_URL: ${{ env.GH_APP_URL }}
-          GH_APP_ID: ${{ env.GH_APP_ID }}
-          GH_CLIENT_ID: ${{ env.GH_CLIENT_ID }}
+          GH_APP_URL: ${{ vars.GH_APP_URL }}
+          GH_APP_ID: ${{ vars.GH_APP_ID }}
+          GH_CLIENT_ID: ${{ vars.GH_CLIENT_ID }}
           GH_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
           GH_PRIVATE_KEY: ${{ secrets.GH_PRIVATE_KEY }}
           GH_WEBHOOK_SECRET: ${{ secrets.GH_WEBHOOK_SECRET }}
