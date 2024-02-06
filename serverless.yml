@@ -107,6 +107,12 @@ resources:
         AliasName: alias/${self:provider.stage}
         TargetKeyId: !Ref KmsKey
 
+    AuthJwks:
+      Type: AWS::SecretsManager::Secret
+      Properties:
+        Name: lambda/${self:provider.stage}/auth-sls-rest-api/jwks
+        SecretString: "{}"
+
     AuthSecret:
       Type: AWS::SecretsManager::Secret
       Properties:
