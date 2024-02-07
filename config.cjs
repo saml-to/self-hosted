@@ -13,5 +13,5 @@ module.exports.SECRETS = JSON.stringify({
     process.env[`GH_WEBHOOK_SECRET`],
 });
 
-module.exports.AUTH_VERSION = 4;
+module.exports.AUTH_VERSION = 6;
 module.exports.GITHUB_VERSION = 22;
