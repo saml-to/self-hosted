@@ -1,3 +1,9 @@
+const packageJson = require(`./package.json`);
+
+Object.entries(packageJson.layers).forEach(([key, value]) => {
+  module.exports[key] = `${key}-${value.replaceAll(`.`, `_`)}`;
+});
+
 module.exports.GH_APP_URL = process.env[`GH_APP_URL`];
 module.exports.GH_APP_ID = process.env[`GH_APP_ID`];
 module.exports.GH_CLIENT_ID = process.env[`GH_CLIENT_ID`].toUpperCase();
@@ -12,6 +18,3 @@ module.exports.SECRETS = JSON.stringify({
   [`GITHUB_WEBHOOK_SECRET_${process.env[`GH_APP_ID`]}`]:
     process.env[`GH_WEBHOOK_SECRET`],
 });
-
-module.exports.AUTH_VERSION = 6;
-module.exports.GITHUB_VERSION = 22;

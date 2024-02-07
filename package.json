@@ -10,6 +10,10 @@
   "scripts": {
     "deploy": "serverless deploy"
   },
+  "layers": {
+    "auth-sls-rest-api": "1.0.24-18",
+    "github-sls-rest-api": "1.0.105-30"
+  },
   "devDependencies": {
     "serverless": "3.38.0"
   }
