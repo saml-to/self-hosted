@@ -42,6 +42,7 @@ functions:
     environment:
       SERVICE_NAME: auth-sls-rest-api
       SERVICE_SLUG: auth
+      TOPIC_ARN: !Ref AuthTopic
     events:
       - http:
           path: /auth
@@ -70,6 +71,7 @@ functions:
     environment:
       SERVICE_NAME: github-sls-rest-api
       SERVICE_SLUG: github
+      TOPIC_ARN: !Ref GithubTopic
     events:
       - http:
           path: /github
