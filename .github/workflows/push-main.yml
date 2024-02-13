@@ -20,6 +20,13 @@ jobs:
       !startsWith(github.event.head_commit.message, 'Initial commit') && 
       !startsWith(github.event.head_commit.message, '🤖') &&
       !contains(github.event.head_commit.message, '[skip ci]')
+    env:
+      GH_APP_URL: ${{ vars.GH_APP_URL }}
+      GH_APP_ID: ${{ vars.GH_APP_ID }}
+      GH_CLIENT_ID: ${{ vars.GH_CLIENT_ID }}
+      GH_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
+      GH_PRIVATE_KEY: ${{ secrets.GH_PRIVATE_KEY }}
+      GH_WEBHOOK_SECRET: ${{ secrets.GH_WEBHOOK_SECRET }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -35,10 +42,4 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
 
       - run: yarn deploy --stage $NODE_ENV
-        env:
-          GH_APP_URL: ${{ vars.GH_APP_URL }}
-          GH_APP_ID: ${{ vars.GH_APP_ID }}
-          GH_CLIENT_ID: ${{ vars.GH_CLIENT_ID }}
-          GH_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
-          GH_PRIVATE_KEY: ${{ secrets.GH_PRIVATE_KEY }}
-          GH_WEBHOOK_SECRET: ${{ secrets.GH_WEBHOOK_SECRET }}
+      - run: yarn info --stage $NODE_ENV
