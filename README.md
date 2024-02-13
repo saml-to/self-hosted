@@ -46,10 +46,10 @@ SAML.to uses Semantic Versioning for the Lambda Layers referenced in [serverless
 
 # Terms of Use
 
-By using this repository, you agree to the [LICENSE](./LICENSE) and [Terms of Use](https://saml.to/terms).
+By using this repository, you agree to the [LICENSE](https://github.com/saml-to/self-hosted?tab=License-1-ov-file) and [Terms of Use](https://saml.to/terms).
 
 # License
 
-[BUSL-1.1](./LICENSE)
+[BUSL-1.1](https://github.com/saml-to/self-hosted?tab=License-1-ov-file)
 
 Copyright 2024 SAML.to (a subsidiary of Scaffoldly LLC)
