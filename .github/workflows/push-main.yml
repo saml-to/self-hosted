@@ -50,4 +50,5 @@ jobs:
         run: yarn deploy --stage $NODE_ENV
 
       - name: Output Serverless Info
-        run: echo $(yarn serverless info --stage $NODE_ENV) >> $GITHUB_STEP_SUMMARY
+        run: |
+          echo "```\n$(yarn -s summary --stage $NODE_ENV)\n```" >> $GITHUB_STEP_SUMMARY
