@@ -7,7 +7,7 @@ It consists of two core APIs:
 - The `auth-sls-rest-api`: The Authentication backend, which creates handles GitHub Login and App Installation events.
 - The `github-sls-rest-api`: The GitHub backend, which handles SAML Requests and Respones using GitHub Tokens.
 
-⚠️ Before getting started, please message [`accounts@saml.to`](mailto:accounts@saml.to) with your AWS Account ID so we can grant access to the Lambda Layers referenced in [serverless.yml](./serverless.yml).
+⚠️ Before getting started, please message [`accounts@saml.to`](mailto:accounts@saml.to) with your AWS Account ID so we can grant access to the Lambda Layers referenced in [package.json](./package.json).
 
 # Getting Started
 
