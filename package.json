@@ -8,9 +8,7 @@
   "license": "BUSL-1.1",
   "private": false,
   "scripts": {
-    "deploy": "serverless deploy",
-    "deploy-list": "serverless deploy list",
-    "print": "serverless print"
+    "deploy": "serverless deploy"
   },
   "layers": {
     "auth-sls-rest-api": "1.0.24-18",
