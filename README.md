@@ -11,7 +11,7 @@ It consists of two core APIs:
 
 # Getting Started
 
-1. Fork this repository into your own GitHub Account or Organization
+1. [Use This Template](https://github.com/new?template_name=self-hosted&template_owner=saml-to) to create this repository in your own GitHub Account or Organization
 1. Follow the [Installation Instructions](./INSTALLATION.md) to deploy the Application to your AWS Account.
 
 # Deploying
