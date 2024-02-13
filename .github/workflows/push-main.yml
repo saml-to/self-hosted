@@ -28,18 +28,26 @@ jobs:
       GH_PRIVATE_KEY: ${{ secrets.GH_PRIVATE_KEY }}
       GH_WEBHOOK_SECRET: ${{ secrets.GH_WEBHOOK_SECRET }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: "18"
           cache: yarn
 
-      - run: yarn
+      - name: Install Dependencies
+        run: yarn
 
-      - uses: aws-actions/configure-aws-credentials@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.AWS_DEPLOY_ROLE }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - run: yarn deploy --stage $NODE_ENV
-      - run: yarn serverless info --stage $NODE_ENV
+      - name: Deploy
+        run: yarn deploy --stage $NODE_ENV
+
+      - name: Output Serverless Info
+        run: echo $(yarn serverless info --stage $NODE_ENV) >> $GITHUB_STEP_SUMMARY
