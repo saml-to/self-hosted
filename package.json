@@ -9,7 +9,8 @@
   "private": false,
   "scripts": {
     "deploy": "serverless deploy",
-    "output": "serverless output list"
+    "deploy-list": "serverless deploy list",
+    "print": "serverless print"
   },
   "layers": {
     "auth-sls-rest-api": "1.0.24-18",

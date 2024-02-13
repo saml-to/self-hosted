@@ -42,4 +42,5 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
 
       - run: yarn deploy --stage $NODE_ENV
-      - run: yarn output --stage $NODE_ENV
+      - run: yarn deploy-list --stage $NODE_ENV
+      - run: yarn print --stage $NODE_ENV
